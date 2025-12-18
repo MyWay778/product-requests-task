@@ -19,6 +19,10 @@
   justify-content: center;
 }
 
+.grow {
+  flex-grow: 1;
+}
+
 // Transitions
 .tr-color {
   transition: color var(--tr-duration) var(--tr-fn);

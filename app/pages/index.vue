@@ -1,3 +1,12 @@
+<script setup lang="ts">
+  import { Card, CardHeader } from '~/shared/ui'
+</script>
+
 <template>
-  <h1>Index page</h1>
+  <Card
+    tag="main"
+    class="grow">
+    <CardHeader title="Заявки" />
+    Requests table
+  </Card>
 </template>

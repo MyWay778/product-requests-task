@@ -6,6 +6,7 @@
   --black: #333333;
   --gray: #a7a5a5;
   --gray-2: #e3e3e3;
+  --gray-3: #eeeeee;
   --gray-light: #f7f7f7;
 
   --active-color: #fc8507;
@@ -50,4 +51,8 @@ a {
   display: block;
   text-decoration: 0;
   color: inherit;
+}
+
+h1 {
+  font-size: 24px;
 }
