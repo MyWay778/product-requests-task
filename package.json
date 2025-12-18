@@ -1,5 +1,5 @@
 {
-  "name": "requests-for-goods-task",
+  "name": "product-requests-task",
   "type": "module",
   "private": true,
   "scripts": {
