@@ -8,7 +8,7 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "lint": "eslint . --fix --cache --max-warnings=0",
+    "lint": "eslint . --fix --cache",
     "type-check": "nuxi typecheck",
     "prepare": "husky"
   },

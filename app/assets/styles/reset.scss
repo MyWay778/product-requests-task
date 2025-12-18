@@ -1,24 +1,26 @@
-/* Use a more-intuitive box-sizing model */
+/* 1. Use a more-intuitive box-sizing model */
 *,
 *::before,
 *::after {
   box-sizing: border-box;
 }
-/* Remove default margin */
+/* 2. Remove default margin */
 * {
   margin: 0;
 }
-/* Enable keyword animations */
+/* 3. Enable keyword animations */
 @media (prefers-reduced-motion: no-preference) {
   html {
     interpolate-size: allow-keywords;
   }
 }
 body {
-  /* Improve text rendering */
+  /* 4. Add accessible line-height */
+  line-height: 1.5;
+  /* 5. Improve text rendering */
   -webkit-font-smoothing: antialiased;
 }
-/* Improve media defaults */
+/* 6. Improve media defaults */
 img,
 picture,
 video,
@@ -27,14 +29,14 @@ svg {
   display: block;
   max-width: 100%;
 }
-/* Inherit fonts for form controls */
+/* 7. Inherit fonts for form controls */
 input,
 button,
 textarea,
 select {
   font: inherit;
 }
-/* Avoid text overflows */
+/* 8. Avoid text overflows */
 p,
 h1,
 h2,
@@ -44,7 +46,7 @@ h5,
 h6 {
   overflow-wrap: break-word;
 }
-/* Improve line wrapping */
+/* 9. Improve line wrapping */
 p {
   text-wrap: pretty;
 }
@@ -57,7 +59,7 @@ h6 {
   text-wrap: balance;
 }
 /*
-  Create a root stacking context
+  10. Create a root stacking context
 */
 #__nuxt {
   isolation: isolate;

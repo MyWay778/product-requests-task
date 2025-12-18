@@ -7,25 +7,8 @@
   cursor: pointer;
 }
 
-// Flex
-.flex-align-center {
-  display: flex;
-  align-items: center;
-}
-
 .flex-center {
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-// Transitions
-.tr-color {
-  transition: color var(--tr-duration) var(--tr-fn);
-}
-.tr-background {
-  transition: background-color var(--tr-duration) var(--tr-fn);
-}
-.tr-color-bg {
-  transition: background-color var(--tr-duration) var(--tr-fn), color var(--tr-duration) var(--tr-fn);
 }
