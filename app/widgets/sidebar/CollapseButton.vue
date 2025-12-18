@@ -1,11 +1,16 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+  const { collapsed } = defineProps<{
+    collapsed?: boolean
+  }>()
+</script>
 
 <template>
   <button
-    class="button flex-center"
+    class="button flex-center tr-color-bg"
     :class="$style.button">
     <Icon
       name="custom:chevron-left"
+      :class="[$style.icon, { [$style._rotate]: collapsed }]"
       size="12" />
   </button>
 </template>
@@ -18,10 +23,17 @@
     border-radius: var(--button-radius);
     color: var(--gray);
     background-color: var(--bg-color);
-    transition: background-color 0.2s ease, color 0.2s ease;
+    flex-shrink: 0;
 
     &:hover {
       background-color: var(--button--hover-bg-color);
+    }
+  }
+
+  .icon {
+    transition: rotate var(--tr-duration) var(--tr-fn);
+    &._rotate {
+      rotate: 180deg;
     }
   }
 </style>
