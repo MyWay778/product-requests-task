@@ -1,27 +1,53 @@
 :root {
-}
+  // VARIABLES
 
-body {
-  // Font
-  font-family: 'PT Sans', sans-serif;
-
-  // Variables
+  // Colors
   --white: #ffffff;
+  --black: #333333;
   --gray: #a7a5a5;
   --gray-2: #e3e3e3;
   --gray-light: #f7f7f7;
+
   --active-color: #fc8507;
+  --active-bg: #fffae6;
   --active-gradient: linear-gradient(101.36deg, #fc8507 0%, #ffa218 100%);
 
-  --bg-color: var(--gray-light);
-  --card-bg-color: var(--white);
-  --border-radius: 16px;
+  // Typography
+  --font-family: 'PT Sans', Helvetica, Arial, sans-serif;
+  --text-primary: var(--black);
+  --font-size: 16px;
+
+  // Transitions
+  --tr-duration: 0.2s;
+  --tr-fn: ease;
+
+  // Buttons
   --button-radius: 8px;
   --button-hover-color: var(--white);
   --button--hover-bg-color: var(--gray-2);
+  --button-hover-bg-color-2: var(--gray-light);
+
+  // Others
+  --bg-color: var(--gray-light);
+  --card-bg-color: var(--white);
+  --border-radius: 16px;
   --box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+body {
+  font-family: var(--font-family);
+  color: var(--text-primary);
+  font-size: var(--font-size);
+  line-height: 1.5;
+  letter-spacing: 0;
 }
 
 #__nuxt {
   height: 100vh;
+}
+
+a {
+  display: block;
+  text-decoration: 0;
+  color: inherit;
 }

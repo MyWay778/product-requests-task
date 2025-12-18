@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Sidebar } from '~/shared/ui'
+  import { Sidebar } from '~/widgets'
 </script>
 
 <template>
