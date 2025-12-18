@@ -9,7 +9,8 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "lint": "eslint . --fix --cache",
-    "type-check": "nuxi typecheck"
+    "type-check": "nuxi typecheck",
+    "prepare": "husky"
   },
   "dependencies": {
     "@nuxt/icon": "^2.1.1",
