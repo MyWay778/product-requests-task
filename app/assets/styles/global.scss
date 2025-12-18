@@ -1,3 +1,14 @@
 .layout {
   min-height: 100%;
 }
+
+.button {
+  border: none;
+  cursor: pointer;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
