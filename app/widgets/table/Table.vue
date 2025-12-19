@@ -1,9 +1,22 @@
-<script setup lang="ts">
+<script setup lang="ts" generic="T extends object">
   import type { Column } from './types'
 
-  const { columns } = defineProps<{
+  const { columns, data, dataId } = defineProps<{
     columns: Column[]
+    data: T[]
+    dataId: keyof T
   }>()
+
+  function hasKey<T extends object>(obj: T, key: PropertyKey): key is keyof T {
+    return key in obj
+  }
+
+  function getValue<T extends object, K extends PropertyKey>(obj: T, key: K) {
+    if (hasKey(obj, key)) {
+      return obj[key]
+    }
+    return undefined
+  }
 </script>
 
 <template>
@@ -18,39 +31,55 @@
           </th>
         </tr>
       </thead>
+
+      <tbody>
+        <slot
+          v-for="row in data"
+          :key="row[dataId]"
+          name="row"
+          :row="row">
+          <tr>
+            <slot
+              v-for="cell in columns"
+              :key="cell.title"
+              :name="'cell-' + cell.field"
+              :cell="cell">
+              <td :class="$style.cell">{{ getValue(row, cell.field) }}</td>
+            </slot>
+          </tr>
+        </slot>
+      </tbody>
     </table>
   </div>
 </template>
 
 <style lang="scss" module>
   .table {
-    // table,
-    // thead {
-    //   display: block;
-    // }
+    --cell-color: var(--black-2);
 
-    // tr {
-    //   display: flex;
-    // }
     border: 1px solid var(--gray-3);
     border-radius: var(--border-radius);
     overflow: hidden;
 
-    table {
+    & > table {
       width: 100%;
       border-collapse: collapse;
-    }
 
-    thead {
-      tr {
+      & > thead > tr {
         background-color: var(--bg-color);
         border-bottom: 1px solid var(--gray-4);
-      }
 
-      th {
-        padding: 15px 20px;
-        color: var(--gray-dark);
+        & > th {
+          padding: 15px 20px;
+          color: var(--gray-dark);
+          text-align: start;
+        }
       }
     }
+  }
+
+  .cell {
+    color: var(--cell-color);
+    padding: 20px;
   }
 </style>
