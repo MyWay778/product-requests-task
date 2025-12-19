@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import type { Request } from '~/entities/request/types'
 
-  const { item } = defineProps<{
+  const {} = defineProps<{
     item: Request
   }>()
 </script>

@@ -24,6 +24,7 @@
     color: var(--gray);
     background-color: var(--bg-color);
     flex-shrink: 0;
+    border: none;
 
     &:hover {
       background-color: var(--button--hover-bg-color);

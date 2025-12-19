@@ -27,6 +27,7 @@
   --active-bg: #fffae6;
   --active-bg-2: #fff9e5;
   --active-gradient: linear-gradient(101.36deg, #fc8507 0%, #ffa218 100%);
+  --active-hover: #ffa319;
 
   // Typography
   --font-family: 'PT Sans', Helvetica, Arial, sans-serif;
@@ -42,6 +43,11 @@
   --button-hover-color: var(--white);
   --button--hover-bg-color: var(--gray-2);
   --button-hover-bg-color-2: var(--gray-light);
+  --button-border-color: var(--gray-4);
+  --button-bg-color: var(--white);
+  --button-active-bg-color: var(--active-gradient);
+  --button-active-color: var(--white);
+  --button-active-bg-hover-color: var(--active-hover);
 
   // Others
   --bg-color: var(--gray-light);
