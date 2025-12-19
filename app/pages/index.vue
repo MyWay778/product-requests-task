@@ -1,7 +1,8 @@
 <script setup lang="ts">
   import { Card, CardHeader } from '~/shared/ui'
   import { Table, type Column } from '~/widgets'
-  import { StatusCell } from '~/entities/request/ui'
+  import { StatusCell, ResultCell } from '~/entities/request/ui'
+  import { formatDate } from '~/shared/utils'
 
   const columns: Column[] = [
     { title: 'Номер', field: 'number' },
@@ -17,7 +18,7 @@
       number: '25-135443',
       status: 'active',
       result: 'processing',
-      date: '2025-08-16'
+      date: 'dsa'
     },
     {
       id: 2,
@@ -55,7 +56,20 @@
         :columns="columns"
         :data="data"
         data-id="id">
-        <template v-slot:cell-status="{ value }"><StatusCell :value="value as string" /></template>
+        <!-- Status -->
+        <template #cell-status="{ value }">
+          <StatusCell :value="value as string" />
+        </template>
+
+        <!-- Result -->
+        <template #cell-result="{ value }">
+          <ResultCell :value=" value as string" />
+        </template>
+
+        <!-- Date -->
+        <template #cell-date="{ value }">
+          {{ formatDate(value as string) }}
+        </template>
       </Table>
     </div>
   </Card>
