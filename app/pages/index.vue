@@ -1,6 +1,7 @@
 <script setup lang="ts">
   import { Card, CardHeader } from '~/shared/ui'
   import { Table, type Column } from '~/widgets'
+  import { StatusCell } from '~/entities/request/ui'
 
   const columns: Column[] = [
     { title: 'Номер', field: 'number' },
@@ -37,7 +38,8 @@
       number: '25-135446',
       status: 'active',
       result: 'processing',
-      date: '2025-08-11'
+      date: '2025-08-11',
+      activeRow: true
     }
   ]
 </script>
@@ -52,7 +54,9 @@
       <Table
         :columns="columns"
         :data="data"
-        data-id="id" />
+        data-id="id">
+        <template v-slot:cell-status="{ value }"><StatusCell :value="value as string" /></template>
+      </Table>
     </div>
   </Card>
 </template>

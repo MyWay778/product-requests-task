@@ -1,5 +1,6 @@
-<script setup lang="ts" generic="T extends object">
+<script setup lang="ts" generic="T extends object & {activeRow?: boolean}">
   import type { Column } from './types'
+  import { Row, Cell } from '~/shared/ui'
 
   const { columns, data, dataId } = defineProps<{
     columns: Column[]
@@ -38,15 +39,19 @@
           :key="row[dataId]"
           name="row"
           :row="row">
-          <tr>
-            <slot
+          <Row :active="row.activeRow">
+            <Cell
               v-for="cell in columns"
-              :key="cell.title"
-              :name="'cell-' + cell.field"
-              :cell="cell">
-              <td :class="$style.cell">{{ getValue(row, cell.field) }}</td>
-            </slot>
-          </tr>
+              :key="cell.title">
+              <slot
+                :name="'cell-' + cell.field"
+                :cell="cell"
+                :row="row"
+                :value="getValue(row, cell.field)">
+                {{ getValue(row, cell.field) }}
+              </slot>
+            </Cell>
+          </Row>
         </slot>
       </tbody>
     </table>
@@ -76,10 +81,5 @@
         }
       }
     }
-  }
-
-  .cell {
-    color: var(--cell-color);
-    padding: 20px;
   }
 </style>
