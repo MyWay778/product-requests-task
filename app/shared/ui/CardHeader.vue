@@ -6,7 +6,10 @@
 
 <template>
   <div :class="$style.header">
-    <h1>{{ title }}</h1>
+    <div :class="$style.inner">
+      <slot name="prepend" />
+      <h1>{{ title }}</h1>
+    </div>
   </div>
 </template>
 
@@ -15,5 +18,11 @@
     padding-block: 16px;
     padding-inline: var(--padding-inline);
     border-bottom: 1px solid var(--gray-3);
+  }
+
+  .inner {
+    display: flex;
+    align-items: center;
+    gap: 12px;
   }
 </style>

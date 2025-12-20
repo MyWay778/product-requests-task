@@ -2,6 +2,10 @@
   min-height: 100%;
 }
 
+.container {
+  padding-inline: var(--padding-inline);
+}
+
 .button {
   cursor: pointer;
 }

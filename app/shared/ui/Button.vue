@@ -17,7 +17,9 @@
 <style lang="scss" module>
   .button {
     font-size: 14px;
+    line-height: 1.3;
     padding: 8px 12px;
+    min-height: 36px;
     border: 1px solid var(--button-border-color);
     border-radius: var(--button-radius);
     background-color: var(--button-bg-color);

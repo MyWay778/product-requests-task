@@ -40,17 +40,17 @@
           name="row"
           :row="row">
           <Row :active="row.activeRow">
-            <Cell
+            <slot
               v-for="cell in columns"
-              :key="cell.title">
-              <slot
-                :name="'cell-' + cell.field"
-                :cell="cell"
-                :row="row"
-                :value="getValue(row, cell.field)">
+              :key="cell.title"
+              :name="'cell-' + cell.field"
+              :cell="cell"
+              :row="row"
+              :value="getValue(row, cell.field)">
+              <Cell>
                 {{ getValue(row, cell.field) }}
-              </slot>
-            </Cell>
+              </Cell>
+            </slot>
           </Row>
         </slot>
       </tbody>
