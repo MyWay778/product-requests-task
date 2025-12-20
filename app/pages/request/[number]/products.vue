@@ -33,7 +33,7 @@
     <div
       class="container"
       :class="$style.table">
-      <ProductTable></ProductTable>
+      <ProductTable />
     </div>
   </Card>
 </template>

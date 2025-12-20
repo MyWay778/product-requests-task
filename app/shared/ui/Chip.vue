@@ -20,10 +20,10 @@
     --green-text: var(--green);
     --green-bg: var(--green-light);
 
-    --yellow-text: var(--yellow);
+    --yellow-text: var(--yellow-dark);
     --yellow-bg: var(--yellow-light);
 
-    --red-text: var(--red);
+    --red-text: var(--red-dark);
     --red-bg: var(--red-light);
 
     --gray-text: var(--gray-dark);

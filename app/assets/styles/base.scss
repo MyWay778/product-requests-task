@@ -18,10 +18,11 @@
   --green: #30b25d;
 
   --yellow-light: #f5e6a8;
-  --yellow: #6b5a00;
+  --yellow-dark: #6b5a00;
 
   --red-light: #e8b4b4;
-  --red: #7a1f1f;
+  --red: #ff5c52;
+  --red-dark: #7a1f1f;
 
   --active-color: #fc8507;
   --active-bg: #fffae6;
@@ -48,6 +49,11 @@
   --button-active-bg-color: var(--active-gradient);
   --button-active-color: var(--white);
   --button-active-bg-hover-color: var(--active-hover);
+
+  // Input
+  --input-radius: 8px;
+  --input-border-color: var(--gray-4);
+  --input-placeholder-color: var(--gray-dark);
 
   // Others
   --bg-color: var(--gray-light);
