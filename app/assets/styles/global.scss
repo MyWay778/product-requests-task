@@ -10,6 +10,13 @@
   cursor: pointer;
 }
 
+.focus-outline {
+  &:focus,
+  &:focus-visible {
+    outline: 1px solid var(--black-2);
+  }
+}
+
 // Flex
 .flex-align-center {
   display: flex;
@@ -20,6 +27,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.flex-between-center {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .grow {

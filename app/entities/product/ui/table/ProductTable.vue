@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { Table, type Column } from '~/widgets/table'
-  import { Cell, Input } from '~/shared/ui'
+  import { Cell, Input, Select, type Option } from '~/shared/ui'
 
   const columns: Column[] = [
     {
@@ -44,6 +44,33 @@
       color: 'white'
     }
   ]
+
+  const options: Option[] = [
+    {
+      label: 'Белый',
+      value: 'white'
+    },
+    {
+      label: 'Черный',
+      value: 'black'
+    },
+    {
+      label: 'Синий',
+      value: 'blue'
+    },
+    {
+      label: 'Красный',
+      value: 'red'
+    },
+    {
+      label: 'Зеленый',
+      value: 'green'
+    },
+    {
+      label: 'Желтый',
+      value: 'yellow'
+    }
+  ]
 </script>
 
 <template>
@@ -56,6 +83,12 @@
         <Input
           placeholder="от 500"
           type="number" />
+      </Cell>
+    </template>
+
+    <template #cell-color>
+      <Cell>
+        <Select :options="options" />
       </Cell>
     </template>
   </Table>

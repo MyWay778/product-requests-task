@@ -22,6 +22,7 @@
     <input
       v-bind="splittedAttrs.input"
       v-model="model"
+      class="focus-outline"
       :class="[$style.input, { [$style._error]: false }]" />
 
     <IconButton
@@ -47,10 +48,6 @@
     border-radius: var(--input-radius);
     font-size: 14px;
     line-height: 20px;
-
-    &:focus-visible {
-      outline: 1px solid var(--black-2);
-    }
 
     &::placeholder {
       transition: color var(--tr-duration) var(--tr-fn);

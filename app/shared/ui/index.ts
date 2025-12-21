@@ -6,3 +6,4 @@ export { default as IconButton } from './IconButton.vue'
 export { default as Input } from './Input.vue'
 
 export * from './table'
+export * from './select'
