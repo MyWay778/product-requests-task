@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import InputWrapper from './InputWrapper.vue'
+  import { useNumberInput } from './composables/use-number-input'
 
   const model = defineModel<number | null>()
 
@@ -13,49 +14,7 @@
     clearValue?: 'min'
   }>()
 
-  const localModel = ref(model.value)
-  const isFocused = ref(false)
-
-  watch(model, v => {
-    if (isFocused.value) return
-    localModel.value = v
-  })
-
-  const modelProxy = computed({
-    get() {
-      return localModel.value
-    },
-    set(value) {
-      localModel.value = value
-
-      if (value == null) {
-        model.value = null
-        return
-      }
-
-      let num = Number(value)
-      if (Number.isNaN(num)) return
-
-      if (min != null) {
-        num = Math.max(num, min)
-      }
-
-      if (max != null) {
-        num = Math.min(num, max)
-      }
-
-      model.value = num
-    }
-  })
-
-  function blurHandler() {
-    localModel.value = model.value
-    isFocused.value = false
-  }
-
-  function clearHandler() {
-    model.value = clearValue === 'min' && min != null ? min : null
-  }
+  const { model: localModel, focusHandler, blurHandler, clearHandler } = useNumberInput(model, { min, max, clearValue })
 </script>
 
 <template>
@@ -65,11 +24,11 @@
     @clear="clearHandler">
     <input
       v-bind="slotProps"
-      v-model.number="modelProxy"
+      v-model.number="localModel"
       :min="min"
       :max="max"
       type="number"
-      @focus="isFocused = true"
+      @focus="focusHandler"
       @blur="blurHandler" />
   </InputWrapper>
 </template>
