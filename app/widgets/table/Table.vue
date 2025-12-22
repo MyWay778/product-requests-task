@@ -1,11 +1,19 @@
 <script setup lang="ts" generic="T extends object & {activeRow?: boolean}">
   import type { Column } from './types'
-  import { Row, Cell } from '~/shared/ui'
+  import { Row, Cell, Loader } from '~/shared/ui'
 
-  const { columns, data, dataId } = defineProps<{
+  const {
+    columns,
+    data,
+    dataId,
+    loading,
+    noDataMessage = 'Данные отсутствуют'
+  } = defineProps<{
     columns: Column[]
     data: T[]
     dataId: keyof T
+    loading?: boolean
+    noDataMessage?: string
   }>()
 
   function hasKey<T extends object>(obj: T, key: PropertyKey): key is keyof T {
@@ -21,7 +29,7 @@
 </script>
 
 <template>
-  <div :class="$style.table">
+  <div :class="[$style.table, { [$style._loading]: loading }]">
     <table>
       <thead>
         <tr>
@@ -53,8 +61,22 @@
             </slot>
           </Row>
         </slot>
+
+        <Row v-if="!data.length">
+          <Cell
+            :class="$style.noDataCell"
+            :colspan="columns.length">
+            <span v-show="!loading">
+              {{ noDataMessage }}
+            </span>
+          </Cell>
+        </Row>
       </tbody>
     </table>
+
+    <Loader
+      v-if="loading"
+      :class="$style.loader" />
   </div>
 </template>
 
@@ -62,6 +84,7 @@
   .table {
     --cell-color: var(--black-2);
 
+    position: relative;
     border: 1px solid var(--gray-3);
     border-radius: var(--border-radius);
     overflow: hidden;
@@ -80,6 +103,31 @@
           text-align: start;
         }
       }
+    }
+
+    &._loading {
+      &:after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: var(--white);
+        opacity: 0.5;
+      }
+    }
+
+    .loader {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 1;
+    }
+
+    .noDataCell {
+      text-align: center;
     }
   }
 </style>

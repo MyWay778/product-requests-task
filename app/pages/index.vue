@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Card, CardHeader, Button, Cell } from '~/shared/ui'
+  import { Card, CardHeader, Button, Cell, Loader } from '~/shared/ui'
   import { Table, type Column } from '~/widgets'
   import { StatusCell, ResultCell } from '~/entities/request/ui'
   import { formatDate } from '~/shared/utils'
@@ -55,7 +55,8 @@
       <Table
         :columns="columns"
         :data="data"
-        data-id="id">
+        data-id="id"
+        :loading="false">
         <!-- Status -->
         <template #cell-status="{ value }">
           <StatusCell :value="value as string" />
@@ -75,7 +76,11 @@
 
         <template #cell-actions="{ row }">
           <Cell>
-            <Button :variant="row.activeRow ? 'active' : 'default'">Редактировать</Button>
+            <Button
+              :variant="row.activeRow ? 'active' : 'default'"
+              :loading="false"
+              >Редактировать</Button
+            >
           </Cell>
         </template>
       </Table>

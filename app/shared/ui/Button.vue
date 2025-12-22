@@ -1,22 +1,42 @@
 <script setup lang="ts">
-  const { variant = 'default', disabled } = defineProps<{
+  import { Loader } from '~/shared/ui'
+
+  const {
+    variant = 'default',
+    disabled,
+    loading
+  } = defineProps<{
     variant?: 'default' | 'active'
     disabled?: boolean
+    loading?: boolean
   }>()
 </script>
 
 <template>
   <button
     class="button tr-background"
-    :class="[$style.button, variant && $style[`_${variant}`], { [$style._disabled]: disabled }]">
+    :class="[
+      $style.button,
+      variant && $style[`_${variant}`],
+      { [$style._disabled]: disabled, [$style._loading]: loading }
+    ]">
     <div :class="$style.inner">
-      <slot />
+      <Loader
+        v-show="loading"
+        :class="$style.loader"
+        size="s"
+        :color="variant === 'active' ? 'secondary' : 'primary'" />
+
+      <div :class="$style.slot">
+        <slot />
+      </div>
     </div>
   </button>
 </template>
 
 <style lang="scss" module>
   .button {
+    position: relative;
     font-size: 14px;
     line-height: 1.3;
     padding: 8px 12px;
@@ -26,12 +46,11 @@
     background-color: var(--button-bg-color);
     overflow: hidden;
 
-    &:hover {
+    &:hover:not(._loading) {
       background-color: var(--button-hover-bg-color-2);
     }
 
     &._active:not(._disabled) {
-      position: relative;
       color: var(--button-active-color);
       background: var(--button-active-bg-color);
       border: none;
@@ -52,7 +71,7 @@
         z-index: 1;
       }
 
-      &:hover:after {
+      &:not(._loading):hover:after {
         opacity: 1;
       }
     }
@@ -64,5 +83,21 @@
       color: var(--gray-7);
       cursor: default;
     }
+
+    &._loading {
+      cursor: default;
+
+      .slot {
+        opacity: 0;
+        visibility: hidden;
+      }
+    }
+  }
+
+  .loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
 </style>
