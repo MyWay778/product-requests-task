@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Card, CardHeader, Button, Cell, Loader } from '~/shared/ui'
+  import { Card, CardHeader, Button, Cell } from '~/shared/ui'
   import { Table, type Column } from '~/widgets'
   import { StatusCell, ResultCell } from '~/entities/request/ui'
   import { formatDate } from '~/shared/utils'
