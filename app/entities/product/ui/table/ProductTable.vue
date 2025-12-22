@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { Table, type Column } from '~/widgets/table'
-  import { Cell, Input, Select, type Option } from '~/shared/ui'
+  import { Cell, NumberInput, Select, type Option } from '~/shared/ui'
 
   const columns: Column[] = [
     {
@@ -81,7 +81,7 @@
     <!-- Quantity -->
     <template #cell-quantity="{ row }">
       <Cell>
-        <Input
+        <NumberInput
           v-model="row.quantity"
           :min="0"
           :max="1_000_000"
@@ -92,7 +92,7 @@
     <!-- Price -->
     <template #cell-price="{ row }">
       <Cell>
-        <Input
+        <NumberInput
           v-model="row.price"
           :min="0"
           :max="1_000_000"
