@@ -21,7 +21,7 @@
     }
   ]
 
-  const data = [
+  const data = ref([
     {
       id: 1,
       name: 'iPhone 16 Pro Max 256',
@@ -43,7 +43,7 @@
       price: 100000,
       color: 'white'
     }
-  ]
+  ])
 
   const options: Option[] = [
     {
@@ -78,17 +78,34 @@
     :columns
     :data
     data-id="id">
-    <template #cell-quantity>
+    <!-- Quantity -->
+    <template #cell-quantity="{ row }">
       <Cell>
         <Input
-          placeholder="от 500"
+          v-model="row.quantity"
+          :min="0"
+          :max="1_000_000"
           type="number" />
       </Cell>
     </template>
 
-    <template #cell-color>
+    <!-- Price -->
+    <template #cell-price="{ row }">
       <Cell>
-        <Select :options="options" />
+        <Input
+          v-model="row.price"
+          :min="0"
+          :max="1_000_000"
+          type="number" />
+      </Cell>
+    </template>
+
+    <!-- Color -->
+    <template #cell-color="{ row }">
+      <Cell>
+        <Select
+          v-model="row.color"
+          :options="options" />
       </Cell>
     </template>
   </Table>

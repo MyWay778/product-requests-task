@@ -3,9 +3,9 @@
   import { onClickOutside } from '@vueuse/core'
   import type { Option } from './types'
 
-  const model = defineModel<string>()
+  const model = defineModel<string | null>()
 
-  const { options, placeholder = 'Select' } = defineProps<{
+  const { options, placeholder = 'Выберите значение' } = defineProps<{
     options: Option[]
     placeholder?: string
   }>()
@@ -52,6 +52,10 @@
   }
 
   function select(value: string) {
+    if (model.value === value) {
+      model.value = null
+      return
+    }
     model.value = value
     open.value = false
   }
@@ -110,7 +114,9 @@
     border-radius: var(--input-radius);
     width: 100%;
     background: none;
-    padding: 5px 12px;
+    padding: 7px 12px;
+    font-size: 14px;
+    line-height: 20px;
 
     &._placeholder {
       color: var(--gray-dark);
@@ -136,16 +142,15 @@
 
   .option {
     padding: 8px 12px;
+    border-radius: var(--button-radius);
     cursor: pointer;
 
-    &:hover:not(._active) {
+    &:hover {
       background-color: var(--button-hover-bg-color-2);
-      border-radius: var(--button-radius);
     }
 
     &._active {
       color: var(--active-color);
-      cursor: default;
     }
   }
 </style>

@@ -1,13 +1,14 @@
 <script setup lang="ts">
-  const { variant = 'default' } = defineProps<{
+  const { variant = 'default', disabled } = defineProps<{
     variant?: 'default' | 'active'
+    disabled?: boolean
   }>()
 </script>
 
 <template>
   <button
     class="button tr-background"
-    :class="[$style.button, variant && $style[`_${variant}`]]">
+    :class="[$style.button, variant && $style[`_${variant}`], { [$style._disabled]: disabled }]">
     <div :class="$style.inner">
       <slot />
     </div>
@@ -29,7 +30,7 @@
       background-color: var(--button-hover-bg-color-2);
     }
 
-    &._active {
+    &._active:not(._disabled) {
       position: relative;
       color: var(--button-active-color);
       background: var(--button-active-bg-color);
@@ -54,6 +55,14 @@
       &:hover:after {
         opacity: 1;
       }
+    }
+
+    &._disabled {
+      font-weight: 700;
+      background-color: var(--button-disabled-bg-color);
+      border-color: transparent;
+      color: var(--gray-7);
+      cursor: default;
     }
   }
 </style>

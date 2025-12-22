@@ -26,6 +26,7 @@
       <Button
         :class="$style.saveButton"
         variant="active"
+        disabled
         >Сохранить</Button
       >
     </div>
