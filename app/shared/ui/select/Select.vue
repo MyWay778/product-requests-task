@@ -3,11 +3,17 @@
   import { onClickOutside } from '@vueuse/core'
   import type { Option } from './types'
 
-  const { options } = defineProps<{
+  const model = defineModel<string>()
+
+  const { options, placeholder = 'Select' } = defineProps<{
     options: Option[]
+    placeholder?: string
   }>()
 
-  const open = ref(true)
+  const selectedOption = computed(() => {
+    return options.find(option => option.value === model.value) ?? null
+  })
+  const open = ref(false)
   const triggerRef = useTemplateRef('trigger')
   const optionsRef = useTemplateRef('options')
 
@@ -45,8 +51,10 @@
     })
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  function select(option: string) {}
+  function select(value: string) {
+    model.value = value
+    open.value = false
+  }
 </script>
 
 <template>
@@ -57,10 +65,10 @@
     <button
       ref="trigger"
       class="button flex-between-center focus-outline"
-      :class="[$style.trigger, { [$style._placeholder]: false }]"
+      :class="[$style.trigger, { [$style._placeholder]: !model }]"
       type="button"
       @click="toggle">
-      <span>Черный</span>
+      <span>{{ selectedOption?.label ?? placeholder }}</span>
       <Icon
         name="custom:chevron-down"
         :class="[$style.icon, { [$style._opened]: open }]"
@@ -76,14 +84,14 @@
         <li
           v-for="option in options"
           class="flex-between-center tr-background"
-          :class="[$style.option, { [$style._active]: option.value === 'black' }]"
+          :class="[$style.option, { [$style._active]: option.value === selectedOption?.value }]"
           role="option"
           @click="select(option.value)">
           <span>
             {{ option.label }}
           </span>
           <Icon
-            v-show="option.value === 'black'"
+            v-show="option.value === selectedOption?.value"
             name="custom:check"
             size="8" />
         </li>
