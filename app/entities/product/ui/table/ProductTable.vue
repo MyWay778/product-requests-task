@@ -1,6 +1,12 @@
 <script setup lang="ts">
   import { Table, type Column } from '~/widgets/table'
   import { Cell, NumberInput, Select, type Option } from '~/shared/ui'
+  import type { Product } from '~/entities/product/types'
+
+  const { data, loading } = defineProps<{
+    data: Product[]
+    loading?: boolean
+  }>()
 
   const columns: Column[] = [
     {
@@ -20,30 +26,6 @@
       field: 'color'
     }
   ]
-
-  const data = ref([
-    {
-      id: 1,
-      name: 'iPhone 16 Pro Max 256',
-      quantity: 1,
-      price: 100000,
-      color: 'black'
-    },
-    {
-      id: 2,
-      name: 'iPhone 16 Pro Max 256',
-      quantity: 3,
-      price: 100000,
-      color: 'red'
-    },
-    {
-      id: 3,
-      name: 'iPhone 16 Pro Max 256',
-      quantity: 5,
-      price: 100000,
-      color: 'white'
-    }
-  ])
 
   const options: Option[] = [
     {
@@ -76,8 +58,9 @@
 <template>
   <Table
     :columns
-    :data
-    data-id="id">
+    :data="data"
+    data-id="id"
+    :loading="loading">
     <!-- Quantity -->
     <template #cell-quantity="{ row }">
       <Cell>

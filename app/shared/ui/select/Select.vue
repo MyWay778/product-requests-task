@@ -78,29 +78,32 @@
         :class="[$style.icon, { [$style._opened]: open }]"
         :size="6" />
     </button>
-    <Transition name="dropdown">
-      <ul
-        v-if="open"
-        ref="options"
-        :class="$style.options"
-        :style="floatingStyles"
-        role="listbox">
-        <li
-          v-for="option in options"
-          class="flex-between-center tr-background"
-          :class="[$style.option, { [$style._active]: option.value === selectedOption?.value }]"
-          role="option"
-          @click="select(option.value)">
-          <span>
-            {{ option.label }}
-          </span>
-          <Icon
-            v-show="option.value === selectedOption?.value"
-            name="custom:check"
-            size="8" />
-        </li>
-      </ul>
-    </Transition>
+
+    <Teleport to="body">
+      <Transition name="dropdown">
+        <ul
+          v-if="open"
+          ref="options"
+          :class="$style.options"
+          :style="floatingStyles"
+          role="listbox">
+          <li
+            v-for="option in options"
+            class="flex-between-center tr-background"
+            :class="[$style.option, { [$style._active]: option.value === selectedOption?.value }]"
+            role="option"
+            @click="select(option.value)">
+            <span>
+              {{ option.label }}
+            </span>
+            <Icon
+              v-show="option.value === selectedOption?.value"
+              name="custom:check"
+              size="8" />
+          </li>
+        </ul>
+      </Transition>
+    </Teleport>
   </div>
 </template>
 

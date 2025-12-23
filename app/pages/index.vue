@@ -1,16 +1,6 @@
 <script setup lang="ts">
-  import { Card, CardHeader, Button, Cell } from '~/shared/ui'
-  import { Table, type Column } from '~/widgets'
-  import { StatusCell, ResultCell } from '~/entities/request/ui'
-  import { formatDate } from '~/shared/utils'
-
-  const columns: Column[] = [
-    { title: 'Номер', field: 'number' },
-    { title: 'Статус', field: 'status' },
-    { title: 'Результат', field: 'result' },
-    { title: 'Дата', field: 'date' },
-    { title: 'Действие', field: 'actions' }
-  ]
+  import { Card, CardHeader } from '~/shared/ui'
+  import { RequestTable } from '~/entities/request/ui'
 
   const data = [
     {
@@ -52,38 +42,7 @@
     <CardHeader title="Заявки" />
 
     <div :class="$style.table">
-      <Table
-        :columns="columns"
-        :data="data"
-        data-id="id"
-        :loading="false">
-        <!-- Status -->
-        <template #cell-status="{ value }">
-          <StatusCell :value="value as string" />
-        </template>
-
-        <!-- Result -->
-        <template #cell-result="{ value }">
-          <ResultCell :value=" value as string" />
-        </template>
-
-        <!-- Date -->
-        <template #cell-date="{ value }">
-          <Cell>
-            {{ formatDate(value as string) }}
-          </Cell>
-        </template>
-
-        <template #cell-actions="{ row }">
-          <Cell>
-            <Button
-              :variant="row.activeRow ? 'active' : 'default'"
-              :loading="false"
-              >Редактировать</Button
-            >
-          </Cell>
-        </template>
-      </Table>
+      <RequestTable />
     </div>
   </Card>
 </template>

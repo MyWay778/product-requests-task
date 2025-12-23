@@ -64,9 +64,9 @@
 
         <Row v-if="!data.length">
           <Cell
-            :class="$style.noDataCell"
+            :class="[$style.noDataCell, { [$style._hideMessage]: loading }]"
             :colspan="columns.length">
-            <span v-show="!loading">
+            <span>
               {{ noDataMessage }}
             </span>
           </Cell>
@@ -128,6 +128,11 @@
 
     .noDataCell {
       text-align: center;
+
+      &._hideMessage span {
+        opacity: 0;
+        visibility: hidden;
+      }
     }
   }
 </style>

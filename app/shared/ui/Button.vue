@@ -46,7 +46,7 @@
     background-color: var(--button-bg-color);
     overflow: hidden;
 
-    &:hover:not(._loading) {
+    &:hover:not(._loading):not(._disabled) {
       background-color: var(--button-hover-bg-color-2);
     }
 

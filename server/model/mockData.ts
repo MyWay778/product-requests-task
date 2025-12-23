@@ -25,8 +25,7 @@ export const requests = [
     number: '25-135446',
     status: 'active',
     result: 'processing',
-    date: '2025-08-11',
-    activeRow: true
+    date: '2025-08-11'
   }
 ]
 
