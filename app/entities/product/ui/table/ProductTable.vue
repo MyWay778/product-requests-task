@@ -3,9 +3,10 @@
   import { Cell, NumberInput, Select, type Option } from '~/shared/ui'
   import type { Product } from '~/entities/product/types'
 
-  const { data, loading } = defineProps<{
+  const { data, loading, fieldsSilent } = defineProps<{
     data: Product[]
     loading?: boolean
+    fieldsSilent?: boolean
   }>()
 
   const columns: Column[] = [
@@ -53,6 +54,13 @@
       value: 'yellow'
     }
   ]
+
+  const inputsRefs = ref<InstanceType<typeof NumberInput>[]>([])
+  const tableIsValid = computed(() => inputsRefs.value.every(input => input.valid))
+
+  defineExpose({
+    valid: tableIsValid
+  })
 </script>
 
 <template>
@@ -65,10 +73,12 @@
     <template #cell-quantity="{ row }">
       <Cell>
         <NumberInput
+          :ref="ref => inputsRefs.push(ref as InstanceType<typeof NumberInput>)"
           v-model="row.quantity"
           :min="0"
           :max="1_000_000"
-          type="number" />
+          type="number"
+          :silent="fieldsSilent" />
       </Cell>
     </template>
 
@@ -76,10 +86,12 @@
     <template #cell-price="{ row }">
       <Cell>
         <NumberInput
+          :ref="ref => inputsRefs.push(ref as InstanceType<typeof NumberInput>)"
           v-model="row.price"
           :min="0"
           :max="1_000_000"
-          type="number" />
+          type="number"
+          :silent="fieldsSilent" />
       </Cell>
     </template>
 

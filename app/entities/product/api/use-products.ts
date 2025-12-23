@@ -1,18 +1,17 @@
 import { useErrorHandler } from '~/shared/composables'
 
 export function useProducts(requestId: number) {
-  const { data, pending, error } = useFetch('/api/products', {
+  const response = useFetch('/api/products', {
     method: 'get',
     query: {
       request: requestId
     },
+    server: false,
+    immediate: false,
     default: () => []
   })
 
-  useErrorHandler(error)
+  useErrorHandler(response.error)
 
-  return {
-    data,
-    pending
-  }
+  return response
 }

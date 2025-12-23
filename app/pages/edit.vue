@@ -30,19 +30,44 @@
     router.replace('/')
   }
 
-  const { data, pending } = useProducts(requestId)
+  const { data, execute } = useProducts(requestId)
 
   const dataCopy = ref<(typeof data)['value']>([])
   const loading = ref(true)
 
+  const initStorageKey = `products-init-${query.id}`
+  const editStorageKey = `products-edit-${query.id}`
+  const savedStorageKey = `products-saved-${query.id}`
+
   onMounted(() => {
-    watchEffect(() => {
-      if (data.value && !pending.value) {
-        dataCopy.value = structuredClone(data.value)
+    localStorage.removeItem(savedStorageKey)
+
+    const initData = localStorage.getItem(initStorageKey)
+
+    if (initData) {
+      data.value = JSON.parse(initData)
+      loading.value = false
+    } else {
+      loading.value = true
+      execute().then(() => {
+        localStorage.setItem(initStorageKey, JSON.stringify(data.value))
         loading.value = false
-      }
-    })
+      })
+    }
   })
+
+  watch(data, data => {
+    const editData = localStorage.getItem(editStorageKey)
+    dataCopy.value = editData ? JSON.parse(editData) : structuredClone(data)
+  })
+
+  watch(
+    dataCopy,
+    data => {
+      localStorage.setItem(editStorageKey, JSON.stringify(data))
+    },
+    { deep: true }
+  )
 
   function deepEqual(a: unknown, b: unknown): boolean {
     return JSON.stringify(a) === JSON.stringify(b)
@@ -52,7 +77,25 @@
     return deepEqual(dataCopy.value, data.value)
   })
 
-  const disableButton = computed(() => !loading.value && isEqual.value)
+  const disableButton = computed(() => loading.value || isEqual.value)
+
+  const tableRef = useTemplateRef<InstanceType<typeof ProductTable>>('table')
+  const fieldsSilent = ref(true)
+
+  function saveHandler() {
+    if (!tableRef.value) return
+
+    if (!tableRef.value.valid) {
+      fieldsSilent.value = false
+      return
+    }
+
+    localStorage.setItem(savedStorageKey, JSON.stringify(dataCopy.value))
+    localStorage.removeItem(initStorageKey)
+    localStorage.removeItem(editStorageKey)
+
+    router.replace('/')
+  }
 </script>
 
 <template>
@@ -75,6 +118,7 @@
         :class="$style.saveButton"
         variant="active"
         :disabled="disableButton"
+        @click="saveHandler"
         >Сохранить</Button
       >
     </div>
@@ -83,8 +127,10 @@
       class="container"
       :class="$style.table">
       <ProductTable
+        ref="table"
         :data="dataCopy"
-        :loading="loading" />
+        :loading="loading"
+        :fields-silent="fieldsSilent" />
     </div>
   </Card>
 </template>

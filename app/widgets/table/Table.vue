@@ -1,4 +1,4 @@
-<script setup lang="ts" generic="T extends object & {activeRow?: boolean}">
+<script setup lang="ts" generic="T extends object">
   import type { Column } from './types'
   import { Row, Cell, Loader } from '~/shared/ui'
 
@@ -47,7 +47,7 @@
           :key="row[dataId]"
           name="row"
           :row="row">
-          <Row :active="row.activeRow">
+          <Row>
             <slot
               v-for="cell in columns"
               :key="cell.title"

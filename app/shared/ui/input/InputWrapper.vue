@@ -3,9 +3,16 @@
   import type { ClassValue } from '~/shared/types'
   import { IconButton } from '~/shared/ui'
 
-  const { showClear, placeholder = 'Введите значение' } = defineProps<{
+  const {
+    showClear,
+    placeholder = 'Введите значение',
+    invalid,
+    silent
+  } = defineProps<{
     showClear?: boolean
     placeholder?: string
+    invalid?: boolean
+    silent?: boolean
   }>()
   const emit = defineEmits<{
     clear: []
@@ -28,7 +35,7 @@
     <slot
       :attrs="splittedAttrs.input"
       class="focus-outline"
-      :class="[$style.input, { [$style._error]: false }]"
+      :class="[$style.input, { [$style._error]: !silent && invalid }]"
       :placeholder="placeholder" />
 
     <IconButton
