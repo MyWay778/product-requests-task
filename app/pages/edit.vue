@@ -80,13 +80,11 @@
   const disableButton = computed(() => loading.value || isEqual.value)
 
   const tableRef = useTemplateRef<InstanceType<typeof ProductTable>>('table')
-  const fieldsSilent = ref(true)
 
-  function saveHandler() {
+  async function saveHandler() {
     if (!tableRef.value) return
 
-    if (!tableRef.value.valid) {
-      fieldsSilent.value = false
+    if (!(await tableRef.value.validate())) {
       return
     }
 
@@ -129,8 +127,7 @@
       <ProductTable
         ref="table"
         :data="dataCopy"
-        :loading="loading"
-        :fields-silent="fieldsSilent" />
+        :loading="loading" />
     </div>
   </Card>
 </template>

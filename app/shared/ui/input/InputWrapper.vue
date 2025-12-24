@@ -6,13 +6,11 @@
   const {
     showClear,
     placeholder = 'Введите значение',
-    invalid,
-    silent
+    invalid
   } = defineProps<{
     showClear?: boolean
     placeholder?: string
     invalid?: boolean
-    silent?: boolean
   }>()
   const emit = defineEmits<{
     clear: []
@@ -35,7 +33,7 @@
     <slot
       :attrs="splittedAttrs.input"
       class="focus-outline"
-      :class="[$style.input, { [$style._error]: !silent && invalid }]"
+      :class="[$style.input, { [$style._error]: invalid }]"
       :placeholder="placeholder" />
 
     <IconButton
@@ -73,7 +71,7 @@
     }
 
     &._error {
-      border-color: red;
+      border-color: var(--red);
     }
   }
 

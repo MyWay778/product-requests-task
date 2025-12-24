@@ -8,6 +8,7 @@
   const { options, placeholder = 'Выберите значение' } = defineProps<{
     options: Option[]
     placeholder?: string
+    error?: string
   }>()
 
   const selectedOption = computed(() => {
@@ -63,7 +64,7 @@
 
 <template>
   <div
-    :class="$style.select"
+    :class="[$style.select, { [$style._error]: error }]"
     role="combobox"
     aria-expanded="false">
     <button
@@ -110,6 +111,12 @@
 <style lang="scss" module>
   .select {
     color: var(--text-primary);
+
+    &._error {
+      .trigger {
+        border-color: var(--red);
+      }
+    }
   }
 
   .trigger {

@@ -2,11 +2,11 @@
   import { Table, type Column } from '~/widgets/table'
   import { Cell, NumberInput, Select, type Option } from '~/shared/ui'
   import type { Product } from '~/entities/product/types'
+  import { required, isNumber, inRange, type Validator } from '~/shared/utils/validations'
 
-  const { data, loading, fieldsSilent } = defineProps<{
+  const { data, loading } = defineProps<{
     data: Product[]
     loading?: boolean
-    fieldsSilent?: boolean
   }>()
 
   const columns: Column[] = [
@@ -55,11 +55,51 @@
     }
   ]
 
-  const inputsRefs = ref<InstanceType<typeof NumberInput>[]>([])
-  const tableIsValid = computed(() => inputsRefs.value.every(input => input.valid))
+  // Validation
+  const errors = reactive(new Map<number, Record<string, string>>()) // Map<rowIndex, Record<field, error>>
+
+  const fieldRules: Record<keyof Pick<Product, 'quantity' | 'price' | 'color'>, Validator[]> = {
+    quantity: [required, isNumber, inRange(1, 1_000_000)],
+    price: [required, isNumber, inRange(1, 1_000_000)],
+    color: [required]
+  }
+
+  async function validate() {
+    errors.clear()
+
+    data.forEach((product, rowIndex) => {
+      for (const [field, rules] of Object.entries(fieldRules)) {
+        for (const rule of rules) {
+          const error = rule(product[field as keyof Product])
+          if (error) {
+            if (errors.has(rowIndex)) {
+              const errorsObj = errors.get(rowIndex)
+              if (!errorsObj) return
+              errorsObj[field] = error
+            } else {
+              errors.set(rowIndex, { [field]: error })
+            }
+            break
+          }
+        }
+      }
+    })
+
+    return errors.size === 0
+  }
+
+  function clearFieldError(rowIndex: number, field: keyof Product) {
+    const errorFields = errors.get(rowIndex)
+    if (errorFields) {
+      delete errorFields[field]
+      if (Object.keys(errorFields).length === 0) {
+        errors.delete(rowIndex)
+      }
+    }
+  }
 
   defineExpose({
-    valid: tableIsValid
+    validate
   })
 </script>
 
@@ -70,37 +110,39 @@
     data-id="id"
     :loading="loading">
     <!-- Quantity -->
-    <template #cell-quantity="{ row }">
+    <template #cell-quantity="{ row, rowIndex }">
       <Cell>
         <NumberInput
-          :ref="ref => inputsRefs.push(ref as InstanceType<typeof NumberInput>)"
           v-model="row.quantity"
           :min="0"
           :max="1_000_000"
           type="number"
-          :silent="fieldsSilent" />
+          :error="errors.get(rowIndex)?.quantity"
+          @update:model-value="clearFieldError(rowIndex, 'quantity')" />
       </Cell>
     </template>
 
     <!-- Price -->
-    <template #cell-price="{ row }">
+    <template #cell-price="{ row, rowIndex }">
       <Cell>
         <NumberInput
-          :ref="ref => inputsRefs.push(ref as InstanceType<typeof NumberInput>)"
           v-model="row.price"
           :min="0"
           :max="1_000_000"
           type="number"
-          :silent="fieldsSilent" />
+          :error="errors.get(rowIndex)?.price"
+          @update:model-value="clearFieldError(rowIndex, 'price')" />
       </Cell>
     </template>
 
     <!-- Color -->
-    <template #cell-color="{ row }">
+    <template #cell-color="{ row, rowIndex }">
       <Cell>
         <Select
           v-model="row.color"
-          :options="options" />
+          :options="options"
+          :error="errors.get(rowIndex)?.color"
+          @update:model-value="clearFieldError(rowIndex, 'color')" />
       </Cell>
     </template>
   </Table>

@@ -43,10 +43,11 @@
 
       <tbody>
         <slot
-          v-for="row in data"
+          v-for="(row, rowIndex) in data"
           :key="row[dataId]"
           name="row"
-          :row="row">
+          :row="row"
+          :rowIndex="rowIndex">
           <Row>
             <slot
               v-for="cell in columns"
@@ -54,6 +55,7 @@
               :name="'cell-' + cell.field"
               :cell="cell"
               :row="row"
+              :rowIndex="rowIndex"
               :value="getValue(row, cell.field)">
               <Cell>
                 {{ getValue(row, cell.field) }}
@@ -92,6 +94,7 @@
     & > table {
       width: 100%;
       border-collapse: collapse;
+      table-layout: fixed;
 
       & > thead > tr {
         background-color: var(--bg-color);
