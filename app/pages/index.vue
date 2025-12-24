@@ -1,6 +1,10 @@
 <script setup lang="ts">
   import { Card, CardHeader } from '~/shared/ui'
   import { RequestTable } from '~/entities/request/ui'
+
+  useHead({
+    title: 'Заявки'
+  })
 </script>
 
 <template>

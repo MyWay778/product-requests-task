@@ -4,8 +4,11 @@
   import { useEditData } from '~/entities/product/model'
 
   definePageMeta({
-    title: 'Products Page',
     layout: 'without-sidebar'
+  })
+
+  useHead({
+    title: 'Редактирование заявки'
   })
 
   const router = useRouter()
