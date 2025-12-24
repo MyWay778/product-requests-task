@@ -2,6 +2,8 @@
 
 Web application to view and edit product requests.
 
+Deploy: https://product-requests-task.netlify.app/
+
 ### Technology Stack
 
 - Nuxt 4 (Vue3, Composition API)
