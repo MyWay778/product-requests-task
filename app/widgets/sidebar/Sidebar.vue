@@ -39,6 +39,7 @@
   .sidebar {
     --tr-duration: 0.3s;
 
+    flex-shrink: 0;
     width: 280px;
     transition: width var(--tr-duration) var(--tr-fn);
 
