@@ -49,7 +49,6 @@
     }
 
     saveData()
-
     router.replace('/')
   }
 </script>

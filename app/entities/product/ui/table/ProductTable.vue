@@ -2,8 +2,9 @@
   import { Table, type Column } from '~/widgets/table'
   import { Cell, NumberInput } from '~/shared/ui'
   import type { Product } from '~/entities/product/types'
-  import { required, isNumber, inRange, type Validator } from '~/shared/utils/validations'
+  import { required, isNumber, inRange } from '~/shared/utils/validations'
   import { ProductFieldSelect } from '~/entities/product/ui'
+  import { useValidate } from '~/shared/composables'
 
   const { data, loading } = defineProps<{
     data: Product[]
@@ -29,48 +30,11 @@
     }
   ]
 
-  // Validation
-  const errors = reactive(new Map<number, Record<string, string>>()) // Map<rowIndex, Record<field, error>>
-
-  const fieldRules: Record<keyof Pick<Product, 'quantity' | 'price' | 'color'>, Validator[]> = {
+  const { errors, validate, clearFieldError } = useValidate(() => data, {
     quantity: [required, isNumber, inRange(1, 1_000_000)],
     price: [required, isNumber, inRange(1, 1_000_000)],
     color: [required]
-  }
-
-  async function validate() {
-    errors.clear()
-
-    data.forEach((product, rowIndex) => {
-      for (const [field, rules] of Object.entries(fieldRules)) {
-        for (const rule of rules) {
-          const error = rule(product[field as keyof Product])
-          if (error) {
-            if (errors.has(rowIndex)) {
-              const errorsObj = errors.get(rowIndex)
-              if (!errorsObj) return
-              errorsObj[field] = error
-            } else {
-              errors.set(rowIndex, { [field]: error })
-            }
-            break
-          }
-        }
-      }
-    })
-
-    return errors.size === 0
-  }
-
-  function clearFieldError(rowIndex: number, field: keyof Product) {
-    const errorFields = errors.get(rowIndex)
-    if (errorFields) {
-      delete errorFields[field]
-      if (Object.keys(errorFields).length === 0) {
-        errors.delete(rowIndex)
-      }
-    }
-  }
+  })
 
   defineExpose({
     validate
