@@ -1,20 +1,20 @@
 import { getOptions } from '../model/dataStore'
 
 export default defineEventHandler(async event => {
-  const { code, property } = getQuery(event)
+  const { code, field } = getQuery(event) // product code, and field
 
-  if (!code || !property) {
+  if (!code || !field) {
     throw createError({
       statusCode: 400,
-      statusMessage: 'Bad Request: code and property query param is required'
+      statusMessage: 'Bad Request: code and field query param is required'
     })
   }
-  const options = await getOptions(Number(code), property as string)
+  const options = await getOptions(Number(code), field as string)
 
   if (!options) {
     throw createError({
       statusCode: 404,
-      statusMessage: `Not Found: Products not found for code ${code} or property ${property}`
+      statusMessage: `Not Found: Products not found for code ${code} or field ${field}`
     })
   }
 

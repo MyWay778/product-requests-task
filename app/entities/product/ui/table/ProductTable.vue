@@ -1,8 +1,9 @@
 <script setup lang="ts">
   import { Table, type Column } from '~/widgets/table'
-  import { Cell, NumberInput, Select, type Option } from '~/shared/ui'
+  import { Cell, NumberInput } from '~/shared/ui'
   import type { Product } from '~/entities/product/types'
   import { required, isNumber, inRange, type Validator } from '~/shared/utils/validations'
+  import { ProductFieldSelect } from '~/entities/product/ui'
 
   const { data, loading } = defineProps<{
     data: Product[]
@@ -25,33 +26,6 @@
     {
       title: 'Цвет',
       field: 'color'
-    }
-  ]
-
-  const options: Option[] = [
-    {
-      label: 'Белый',
-      value: 'white'
-    },
-    {
-      label: 'Черный',
-      value: 'black'
-    },
-    {
-      label: 'Синий',
-      value: 'blue'
-    },
-    {
-      label: 'Красный',
-      value: 'red'
-    },
-    {
-      label: 'Зеленый',
-      value: 'green'
-    },
-    {
-      label: 'Желтый',
-      value: 'yellow'
     }
   ]
 
@@ -138,9 +112,10 @@
     <!-- Color -->
     <template #cell-color="{ row, rowIndex }">
       <Cell>
-        <Select
+        <ProductFieldSelect
           v-model="row.color"
-          :options="options"
+          :product-code="row.productCode"
+          field="color"
           :error="errors.get(rowIndex)?.color"
           @update:model-value="clearFieldError(rowIndex, 'color')" />
       </Cell>
