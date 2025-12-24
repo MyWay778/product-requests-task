@@ -1,81 +1,41 @@
 <script setup lang="ts">
   import { Card, CardHeader, IconButton, Button } from '~/shared/ui'
   import { ProductTable } from '~/entities/product/ui'
-  import { useProducts } from '~/entities/product/api'
+  import { useEditData } from '~/entities/product/model'
 
   definePageMeta({
     title: 'Products Page',
     layout: 'without-sidebar'
   })
 
-  const { query } = useRoute()
-  if (!query.id) {
-    throw createError({
-      statusCode: 400,
-      statusMessage: 'Bad Request: id query param is required'
-    })
-  }
-
-  const requestId = Number(query.id)
-  if (isNaN(requestId)) {
-    throw createError({
-      statusCode: 400,
-      statusMessage: 'Bad Request: id query param must be a number'
-    })
-  }
-
   const router = useRouter()
+  const { query } = useRoute()
+  const requestId = validateRequestId(query.id)
+
+  function validateRequestId(id: unknown) {
+    if (!id) {
+      throw createError({
+        statusCode: 400,
+        statusMessage: 'Bad Request: id query param is required'
+      })
+    }
+
+    const idNumber = Number(id)
+    if (isNaN(idNumber)) {
+      throw createError({
+        statusCode: 400,
+        statusMessage: 'Bad Request: id query param must be a number'
+      })
+    }
+
+    return idNumber
+  }
 
   function backHandler() {
     router.replace('/')
   }
 
-  const { data, execute } = useProducts(requestId)
-
-  const dataCopy = ref<(typeof data)['value']>([])
-  const loading = ref(true)
-
-  const initStorageKey = `products-init-${query.id}`
-  const editStorageKey = `products-edit-${query.id}`
-  const savedStorageKey = `products-saved-${query.id}`
-
-  onMounted(() => {
-    localStorage.removeItem(savedStorageKey)
-
-    const initData = localStorage.getItem(initStorageKey)
-
-    if (initData) {
-      data.value = JSON.parse(initData)
-      loading.value = false
-    } else {
-      loading.value = true
-      execute().then(() => {
-        localStorage.setItem(initStorageKey, JSON.stringify(data.value))
-        loading.value = false
-      })
-    }
-  })
-
-  watch(data, data => {
-    const editData = localStorage.getItem(editStorageKey)
-    dataCopy.value = editData ? JSON.parse(editData) : structuredClone(data)
-  })
-
-  watch(
-    dataCopy,
-    data => {
-      localStorage.setItem(editStorageKey, JSON.stringify(data))
-    },
-    { deep: true }
-  )
-
-  function deepEqual(a: unknown, b: unknown): boolean {
-    return JSON.stringify(a) === JSON.stringify(b)
-  }
-
-  const isEqual = computed(() => {
-    return deepEqual(dataCopy.value, data.value)
-  })
+  const { data, isEqual, loading, saveData } = useEditData(requestId)
 
   const disableButton = computed(() => loading.value || isEqual.value)
 
@@ -88,9 +48,7 @@
       return
     }
 
-    localStorage.setItem(savedStorageKey, JSON.stringify(dataCopy.value))
-    localStorage.removeItem(initStorageKey)
-    localStorage.removeItem(editStorageKey)
+    saveData()
 
     router.replace('/')
   }
@@ -126,7 +84,7 @@
       :class="$style.table">
       <ProductTable
         ref="table"
-        :data="dataCopy"
+        :data="data"
         :loading="loading" />
     </div>
   </Card>
