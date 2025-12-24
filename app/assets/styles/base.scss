@@ -3,14 +3,35 @@
 
   // Colors
   --white: #ffffff;
+
   --black: #333333;
+  --black-2: #4e4e4e;
+
+  --gray-dark: #8c8c8c;
   --gray: #a7a5a5;
   --gray-2: #e3e3e3;
+  --gray-3: #eeeeee;
+  --gray-4: #d9d9d9;
+  --gray-5: #eae8e8;
+  --gray-6: #f2f2f2;
+  --gray-7: #afafaf;
   --gray-light: #f7f7f7;
+
+  --green-light: #ebffed;
+  --green: #30b25d;
+
+  --yellow-light: #f5e6a8;
+  --yellow-dark: #6b5a00;
+
+  --red-light: #e8b4b4;
+  --red: #ff5c52;
+  --red-dark: #7a1f1f;
 
   --active-color: #fc8507;
   --active-bg: #fffae6;
+  --active-bg-2: #fff9e5;
   --active-gradient: linear-gradient(101.36deg, #fc8507 0%, #ffa218 100%);
+  --active-hover: #ffa319;
 
   // Typography
   --font-family: 'PT Sans', Helvetica, Arial, sans-serif;
@@ -23,15 +44,31 @@
 
   // Buttons
   --button-radius: 8px;
+
   --button-hover-color: var(--white);
+  --button-hover-color-2: var(--black);
   --button--hover-bg-color: var(--gray-2);
   --button-hover-bg-color-2: var(--gray-light);
+
+  --button-active-bg-color: var(--active-gradient);
+  --button-active-color: var(--white);
+  --button-active-bg-hover-color: var(--active-hover);
+
+  --button-border-color: var(--gray-4);
+  --button-bg-color: var(--white);
+  --button-disabled-bg-color: var(--gray-6);
+
+  // Input
+  --input-radius: 8px;
+  --input-border-color: var(--gray-4);
+  --input-placeholder-color: var(--gray-dark);
 
   // Others
   --bg-color: var(--gray-light);
   --card-bg-color: var(--white);
   --border-radius: 16px;
   --box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1);
+  --padding-inline: 24px;
 }
 
 body {
@@ -50,4 +87,13 @@ a {
   display: block;
   text-decoration: 0;
   color: inherit;
+}
+
+h1 {
+  font-size: 24px;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
 }

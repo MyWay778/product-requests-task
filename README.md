@@ -1,75 +1,32 @@
-# Nuxt Minimal Starter
+# Product Requests Task
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Web application to view and edit product requests.
 
-## Setup
+### Technology Stack
+
+- Nuxt 4 (Vue3, Composition API)
+- TypeScript
+- Sass Modules
+
+## How to Run
+
+### Setup
 
 Make sure to install dependencies:
 
 ```bash
-# npm
 npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
 ```
 
-## Development Server
+### Development Server
 
 Start the development server on `http://localhost:3000`:
 
 ```bash
-# npm
 npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
 ```
 
-## Production
+## Screenshots
+<img width="1826" height="904" alt="1" src="https://github.com/user-attachments/assets/8e4360bf-4be0-4206-a421-b232d35870ee" />
+<img width="1829" height="909" alt="2" src="https://github.com/user-attachments/assets/c34fe05b-6848-44bc-9231-7f95581364ac" />
 
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.

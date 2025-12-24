@@ -1,9 +1,15 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+  const { tag = 'div' } = defineProps<{
+    tag?: keyof HTMLElementTagNameMap
+  }>()
+</script>
 
 <template>
-  <div :class="$style.card">
+  <component
+    :is="tag"
+    :class="$style.card">
     <slot />
-  </div>
+  </component>
 </template>
 
 <style lang="css" module>
