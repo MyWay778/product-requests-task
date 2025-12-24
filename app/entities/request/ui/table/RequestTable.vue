@@ -4,6 +4,9 @@
   import { StatusCell, ResultCell } from './index'
   import { formatDate } from '~/shared/utils'
   import { useRequests } from '~/entities/request/api'
+  import { storageKeys } from '~/entities/product/model'
+  import { LocalStorageHelper } from '~/shared/utils'
+  import { updateProducts } from '~/entities/request/api'
 
   const columns: Column[] = [
     { title: 'Номер', field: 'number' },
@@ -17,36 +20,28 @@
   execute()
 
   const loading = computed(() => status.value === 'pending')
-
   const router = useRouter()
+  const saveLoading = ref(false)
 
   function editHandler(id: number) {
     router.push(`/edit?id=${id}`)
   }
 
-  const saveLoading = ref(false)
-
-  const savedStorageKey = `products-saved-`
-
   function checkSaved(id: number) {
-    const changedProducts = localStorage.getItem(savedStorageKey + id)
-    return Boolean(changedProducts)
+    const storage = new LocalStorageHelper(storageKeys.saved(id))
+    return storage.exists()
   }
 
   function saveRequest(id: number) {
-    const changedProducts = localStorage.getItem(savedStorageKey + id)
+    const storage = new LocalStorageHelper(storageKeys.saved(id))
+    const changedProducts = storage.get()
+
     if (!changedProducts) return
     saveLoading.value = true
 
-    $fetch('/api/send', {
-      method: 'POST',
-      body: {
-        id,
-        products: JSON.parse(changedProducts)
-      }
-    })
+    updateProducts(id, changedProducts)
       .then(() => {
-        localStorage.removeItem(savedStorageKey + id)
+        storage.clear()
         refresh()
       })
       .finally(() => {
